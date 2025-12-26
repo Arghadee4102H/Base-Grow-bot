@@ -2,122 +2,216 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Base Follow | Web3 Growth</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- Monetag SDK -->
     <script src='//libtl.com/sdk.js' data-zone='10376570' data-sdk='show_10376570'></script>
+    
+    <!-- Adsgram SDK (Loaded dynamically or via script if available for web) -->
+    <script src="https://adsgram.ai/js/adsgram.js"></script>
 </head>
 <body>
-    <div class="bg-glow"></div>
-    <div id="app">
-        <!-- Auth Screen -->
-        <section id="auth-screen" class="screen active">
-            <div class="glass-card">
-                <h1 class="logo">BASE FOLLOW</h1>
-                <div id="auth-forms">
-                    <div id="login-form">
-                        <input type="email" id="login-email" placeholder="Email">
-                        <input type="password" id="login-pass" placeholder="Password">
-                        <button class="btn-primary" onclick="handleLogin()">Login</button>
-                        <p onclick="toggleAuth(false)">New here? <span>Sign Up</span></p>
-                    </div>
-                    <div id="signup-form" class="hidden">
-                        <input type="text" id="signup-name" placeholder="Full Name">
-                        <input type="email" id="signup-email" placeholder="Email">
-                        <input type="password" id="signup-pass" placeholder="Password">
-                        <input type="password" id="signup-confirm" placeholder="Confirm Password">
-                        <button class="btn-primary" onclick="handleSignup()">Join Base</button>
-                        <p onclick="toggleAuth(true)">Already a member? <span>Login</span></p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Onboarding Screen -->
-        <section id="onboarding-screen" class="screen">
-            <div class="glass-card">
-                <h2>Welcome, <span id="user-display-name">...</span></h2>
-                <p>Follow our socials to earn your first 10 Points</p>
-                <div class="task-list">
-                    <div class="task-item" onclick="verifySocial('tg1', 'https://t.me/ABaseGrow')">Telegram Channel 1 <span>+2.5 pts</span></div>
-                    <div class="task-item" onclick="verifySocial('tg2', 'https://t.me/Scalpingargha')">Telegram Channel 2 <span>+2.5 pts</span></div>
-                    <div class="task-item" onclick="verifySocial('tw', 'https://x.com/Arghade74167980')">Twitter (X) <span>+2.5 pts</span></div>
-                    <div class="task-item" onclick="verifySocial('yt', 'https://youtube.com/@aafxtrade')">YouTube <span>+2.5 pts</span></div>
-                </div>
-                <button class="btn-secondary mt-20" onclick="showScreen('home-screen')">Enter Dashboard</button>
-            </div>
-        </section>
+    <!-- Background Particles -->
+    <div id="particles"></div>
+    <div class="overlay"></div>
 
-        <!-- Main Dashboard -->
-        <main id="main-content" class="hidden">
-            <!-- Home Section -->
-            <section id="home-screen" class="tab-content active">
-                <div class="profile-card">
-                    <h3 id="h-name">Name</h3>
-                    <p id="h-email">Email</p>
-                    <div class="points-display">
-                        <span id="h-points">0</span> <small>Points</small>
-                    </div>
-                </div>
-            </section>
+    <!-- NOTIFICATION TOAST -->
+    <div id="toast" class="toast hidden">Notification</div>
 
-            <!-- Post Section -->
-            <section id="post-screen" class="tab-content">
-                <div class="glass-card">
-                    <h3>Promote Profile</h3>
-                    <p class="small">Cost: 1.5 pts per follow. Min: 21 pts budget.</p>
-                    <input type="url" id="base-link" placeholder="https://base.app/profile/username">
-                    <input type="number" id="post-budget" placeholder="Total Budget (Min 21)">
-                    <button class="btn-primary" onclick="createPost()">Launch Post</button>
-                    <div id="my-active-posts"></div>
-                </div>
-            </section>
-
-            <!-- Ads Section -->
-            <section id="ads-screen" class="tab-content text-center">
-                <div class="glass-card">
-                    <h3>Watch & Earn</h3>
-                    <p>Earn 0.5 points per ad</p>
-                    <p class="small">Daily Limit: <span id="ad-count">0</span>/70</p>
-                    <button class="btn-glow" onclick="showMonetagAd()">Watch Ad</button>
-                </div>
-            </section>
-
-            <!-- Task Section -->
-            <section id="task-screen" class="tab-content">
-                <h3>Earn Points</h3>
-                <div id="available-tasks">
-                    <!-- Tasks injected here -->
-                </div>
-            </section>
-
-            <!-- Navigation -->
-            <nav class="bottom-nav">
-                <div class="nav-item active" onclick="switchTab('home-screen')">🏠</div>
-                <div class="nav-item" onclick="switchTab('post-screen')">📫</div>
-                <div class="nav-item" onclick="switchTab('ads-screen')">📺</div>
-                <div class="nav-item" onclick="switchTab('task-screen')">📢</div>
-            </nav>
-        </main>
-
-        <!-- Universal Timer Overlay -->
-        <div id="timer-overlay" class="hidden">
-            <div class="timer-container">
-                <svg viewBox="0 0 36 36" class="circular-chart">
-                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path id="timer-progress" class="circle" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                </svg>
-                <div id="timer-text">6</div>
-            </div>
-            <p>Verifying action...</p>
-        </div>
+    <!-- FULL SCREEN LOADER -->
+    <div id="loader" class="loader-screen">
+        <div class="spinner"></div>
+        <p>INITIALIZING BASE PROTOCOL...</p>
     </div>
 
+    <!-- AUTH SECTION -->
+    <section id="auth-section" class="screen active">
+        <div class="logo-area">
+            <h1>BASE <span class="highlight">FOLLOW</span></h1>
+            <p>Next Gen Social Growth</p>
+        </div>
+        
+        <div class="auth-container glass-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="toggleAuth('login')">Login</button>
+                <button class="auth-tab" onclick="toggleAuth('signup')">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form active">
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="login-email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="login-pass" placeholder="Password" required>
+                </div>
+                <button type="submit" class="cyber-btn">ACCESS TERMINAL</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="signup-form" class="auth-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="reg-name" placeholder="Full Name" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="reg-email" placeholder="Email Address" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="reg-pass" placeholder="Password" required>
+                </div>
+                <div class="input-group">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <input type="password" id="reg-confirm-pass" placeholder="Confirm Password" required>
+                </div>
+                <button type="submit" class="cyber-btn">INITIALIZE ID</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ONBOARDING SECTION (Mandatory) -->
+    <section id="onboarding-section" class="screen hidden">
+        <div class="header-glass">
+            <h2>MANDATORY PROTOCOL</h2>
+            <p>Complete tasks to unlock access (+10 Points)</p>
+        </div>
+        <div class="task-list" id="onboarding-list">
+            <!-- Dynamic Content -->
+        </div>
+        <button id="check-onboarding-btn" class="cyber-btn hidden">VERIFY & ENTER</button>
+    </section>
+
+    <!-- MAIN APP DASHBOARD -->
+    <div id="main-app" class="hidden">
+        
+        <!-- Top Stats Bar -->
+        <header class="dashboard-header">
+            <div class="user-info">
+                <div class="avatar-circle"><i class="fa-solid fa-robot"></i></div>
+                <div>
+                    <h4 id="display-name">User</h4>
+                    <span class="user-email" id="display-email">...</span>
+                </div>
+            </div>
+            <div class="points-badge">
+                <i class="fa-solid fa-coins"></i>
+                <span id="user-points">0.0</span>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Area -->
+        <main id="content-area">
+            
+            <!-- HOME TAB -->
+            <div id="tab-home" class="tab-content active">
+                <div class="welcome-card glass-card">
+                    <h3>Base Status: <span class="online">ONLINE</span></h3>
+                    <p>Welcome to the decentralized growth network.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <span>Active Posts</span>
+                        <h3 id="stat-active-posts">0</h3>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-check-circle"></i>
+                        <span>Tasks Done</span>
+                        <h3 id="stat-tasks-done">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- POST CAMPAIGN TAB -->
+            <div id="tab-post" class="tab-content">
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-rocket"></i> Boost Profile</h3>
+                    <p class="subtext">Cost: 1.5 Points/Follow | Min Balance: 21</p>
+                    
+                    <form id="create-post-form">
+                        <div class="input-group">
+                            <i class="fa-brands fa-coinbase"></i>
+                            <input type="url" id="coinbase-url" placeholder="https://base.app/profile/username" required>
+                        </div>
+                        <div class="input-group">
+                            <i class="fa-solid fa-users"></i>
+                            <input type="number" id="target-count" placeholder="Number of follows needed" min="1" required>
+                        </div>
+                        <p class="cost-calc">Total Cost: <span id="calc-cost">0</span> Points</p>
+                        <button type="submit" class="cyber-btn">DEPLOY CAMPAIGN</button>
+                    </form>
+                    
+                    <div class="my-campaigns-list">
+                        <h4>Active Deployments</h4>
+                        <div id="my-posts-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADS TAB -->
+            <div id="tab-ads" class="tab-content">
+                <div class="glass-card center-content">
+                    <div class="ad-icon-large"><i class="fa-solid fa-tv"></i></div>
+                    <h3>Watch & Earn</h3>
+                    <p>Earn 0.5 points per ad view.</p>
+                    <p class="limit-text">Daily Limit: <span id="ad-count">0</span>/70</p>
+                    
+                    <button class="cyber-btn" onclick="showMonetagAd()">WATCH AD (Monetag)</button>
+                    <br><br>
+                    <button class="cyber-btn outline" onclick="showAdsgramAd()">WATCH AD (Adsgram)</button>
+                </div>
+            </div>
+
+            <!-- TASKS TAB -->
+            <div id="tab-tasks" class="tab-content">
+                <div class="glass-card">
+                    <h3><i class="fa-solid fa-list-check"></i> Available Tasks</h3>
+                    <p>Follow users to earn 1 Point.</p>
+                </div>
+                <div id="tasks-container" class="tasks-scroll">
+                    <!-- Tasks load here -->
+                    <div class="loading-pulse">Searching for signals...</div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="switchTab('tab-home', this)">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="switchTab('tab-post', this)">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Post</span>
+            </button>
+            <button class="nav-item center-fab" onclick="switchTab('tab-ads', this)">
+                <div class="fab-circle"><i class="fa-solid fa-play"></i></div>
+            </button>
+            <button class="nav-item" onclick="switchTab('tab-tasks', this)">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>Tasks</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Scripts -->
     <!-- Firebase SDKs -->
-    <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script src="firebaseConfig.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
