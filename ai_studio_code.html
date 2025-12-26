@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base Follow | Web3 Growth</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Monetag SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='10376570' data-sdk='show_10376570'></script>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    <div id="app">
+        <!-- Auth Screen -->
+        <section id="auth-screen" class="screen active">
+            <div class="glass-card">
+                <h1 class="logo">BASE FOLLOW</h1>
+                <div id="auth-forms">
+                    <div id="login-form">
+                        <input type="email" id="login-email" placeholder="Email">
+                        <input type="password" id="login-pass" placeholder="Password">
+                        <button class="btn-primary" onclick="handleLogin()">Login</button>
+                        <p onclick="toggleAuth(false)">New here? <span>Sign Up</span></p>
+                    </div>
+                    <div id="signup-form" class="hidden">
+                        <input type="text" id="signup-name" placeholder="Full Name">
+                        <input type="email" id="signup-email" placeholder="Email">
+                        <input type="password" id="signup-pass" placeholder="Password">
+                        <input type="password" id="signup-confirm" placeholder="Confirm Password">
+                        <button class="btn-primary" onclick="handleSignup()">Join Base</button>
+                        <p onclick="toggleAuth(true)">Already a member? <span>Login</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Onboarding Screen -->
+        <section id="onboarding-screen" class="screen">
+            <div class="glass-card">
+                <h2>Welcome, <span id="user-display-name">...</span></h2>
+                <p>Follow our socials to earn your first 10 Points</p>
+                <div class="task-list">
+                    <div class="task-item" onclick="verifySocial('tg1', 'https://t.me/ABaseGrow')">Telegram Channel 1 <span>+2.5 pts</span></div>
+                    <div class="task-item" onclick="verifySocial('tg2', 'https://t.me/Scalpingargha')">Telegram Channel 2 <span>+2.5 pts</span></div>
+                    <div class="task-item" onclick="verifySocial('tw', 'https://x.com/Arghade74167980')">Twitter (X) <span>+2.5 pts</span></div>
+                    <div class="task-item" onclick="verifySocial('yt', 'https://youtube.com/@aafxtrade')">YouTube <span>+2.5 pts</span></div>
+                </div>
+                <button class="btn-secondary mt-20" onclick="showScreen('home-screen')">Enter Dashboard</button>
+            </div>
+        </section>
+
+        <!-- Main Dashboard -->
+        <main id="main-content" class="hidden">
+            <!-- Home Section -->
+            <section id="home-screen" class="tab-content active">
+                <div class="profile-card">
+                    <h3 id="h-name">Name</h3>
+                    <p id="h-email">Email</p>
+                    <div class="points-display">
+                        <span id="h-points">0</span> <small>Points</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Post Section -->
+            <section id="post-screen" class="tab-content">
+                <div class="glass-card">
+                    <h3>Promote Profile</h3>
+                    <p class="small">Cost: 1.5 pts per follow. Min: 21 pts budget.</p>
+                    <input type="url" id="base-link" placeholder="https://base.app/profile/username">
+                    <input type="number" id="post-budget" placeholder="Total Budget (Min 21)">
+                    <button class="btn-primary" onclick="createPost()">Launch Post</button>
+                    <div id="my-active-posts"></div>
+                </div>
+            </section>
+
+            <!-- Ads Section -->
+            <section id="ads-screen" class="tab-content text-center">
+                <div class="glass-card">
+                    <h3>Watch & Earn</h3>
+                    <p>Earn 0.5 points per ad</p>
+                    <p class="small">Daily Limit: <span id="ad-count">0</span>/70</p>
+                    <button class="btn-glow" onclick="showMonetagAd()">Watch Ad</button>
+                </div>
+            </section>
+
+            <!-- Task Section -->
+            <section id="task-screen" class="tab-content">
+                <h3>Earn Points</h3>
+                <div id="available-tasks">
+                    <!-- Tasks injected here -->
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="bottom-nav">
+                <div class="nav-item active" onclick="switchTab('home-screen')">🏠</div>
+                <div class="nav-item" onclick="switchTab('post-screen')">📫</div>
+                <div class="nav-item" onclick="switchTab('ads-screen')">📺</div>
+                <div class="nav-item" onclick="switchTab('task-screen')">📢</div>
+            </nav>
+        </main>
+
+        <!-- Universal Timer Overlay -->
+        <div id="timer-overlay" class="hidden">
+            <div class="timer-container">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path id="timer-progress" class="circle" stroke-dasharray="100, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div id="timer-text">6</div>
+            </div>
+            <p>Verifying action...</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
