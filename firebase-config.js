@@ -1,7 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
+// REPLACE WITH YOUR ACTUAL FIREBASE CONFIG KEYS
 const firebaseConfig = {
     apiKey: "AIzaSyDGBvN2OXArmtept5_DgVXtCttvVXSOOho",
     authDomain: "basefollow-cde79.firebaseapp.com",
@@ -11,6 +8,9 @@ const firebaseConfig = {
     appId: "1:104856172692:web:802a0948acb4909cefdc81"
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// console.log("Firebase Initialized");
