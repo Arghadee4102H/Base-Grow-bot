@@ -3,12 +3,12 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDGBvN2OXArmtept5_DgVXtCttvVXSOOho",
+    authDomain: "basefollow-cde79.firebaseapp.com",
+    projectId: "basefollow-cde79",
+    storageBucket: "basefollow-cde79.firebasestorage.app",
+    messagingSenderId: "104856172692",
+    appId: "1:104856172692:web:802a0948acb4909cefdc81"
 };
 
 const app = initializeApp(firebaseConfig);
