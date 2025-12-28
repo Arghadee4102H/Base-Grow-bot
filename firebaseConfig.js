@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 // Error check for user
-if(firebaseConfig.apiKey === "AIzaSyDGBvN2OXArmtept5_DgVXtCttvVXSOOho) {
+if(firebaseConfig.apiKey === "AIzaSyDGBvN2OXArmtept5_DgVXtCttvVXSOOho") {
     alert("CRITICAL ERROR: You have not added your Firebase Keys in firebaseConfig.js!");
 }
 
